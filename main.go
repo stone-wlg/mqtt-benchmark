@@ -68,6 +68,7 @@ func main() {
 		clients  = flag.Int("clients", 10, "Number of clients to start")
 		format   = flag.String("format", "text", "Output format: text|json")
 		quiet    = flag.Bool("quiet", false, "Suppress logs while running")
+		clientid   = flag.String("clientid", "", "MQTT clientid (empty if auth disabled)")
 	)
 
 	flag.Parse()
@@ -95,6 +96,7 @@ func main() {
 			MsgCount:   *count,
 			MsgQoS:     byte(*qos),
 			Quiet:      *quiet,
+			ClientID: *clientid,
 		}
 		go c.Run(resCh)
 	}

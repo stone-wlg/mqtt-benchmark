@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"time"
+	"encoding/json"
 )
 
 import (
@@ -21,6 +22,7 @@ type Client struct {
 	MsgCount   int
 	MsgQoS     byte
 	Quiet      bool
+	ClientID 	 string
 }
 
 func (c *Client) Run(res chan *RunResults) {
@@ -75,6 +77,7 @@ func (c *Client) genMessages(ch chan *Message, done chan bool) {
 			Topic:   c.MsgTopic,
 			QoS:     c.MsgQoS,
 			Payload: make([]byte, c.MsgSize),
+			//Payload: {"temperature": 36.5},
 		}
 	}
 	done <- true
@@ -128,10 +131,18 @@ func (c *Client) pubMessages(in, out chan *Message, doneGen, donePub chan bool) 
 		SetConnectionLostHandler(func(client mqtt.Client, reason error) {
 			log.Printf("CLIENT %v lost connection to the broker: %v. Will reconnect...\n", c.ID, reason.Error())
 		})
-	if c.BrokerUser != "" && c.BrokerPass != "" {
-		opts.SetUsername(c.BrokerUser)
-		opts.SetPassword(c.BrokerPass)
+
+	if c.ClientID != "" {
+		opts.SetClientID(c.ClientID)
 	}
+
+	if c.BrokerUser != "" {
+		opts.SetUsername(c.BrokerUser)
+	}
+
+	if c.BrokerPass != "" {
+		opts.SetPassword(c.BrokerPass)
+	}	
 	client := mqtt.NewClient(opts)
 	token := client.Connect()
 	token.Wait()
