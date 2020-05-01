@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"time"
+	"bytes"
 	"encoding/json"
 )
 
@@ -78,6 +79,7 @@ func (c *Client) genMessages(ch chan *Message, done chan bool) {
 			QoS:     c.MsgQoS,
 			Payload: make([]byte, c.MsgSize),
 			//Payload: {"temperature": 36.5},
+			//Payload: bytes.NewBufferString("Publish qos0")
 		}
 	}
 	done <- true
