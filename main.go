@@ -63,12 +63,13 @@ func main() {
 		username = flag.String("username", "", "MQTT username (empty if auth disabled)")
 		password = flag.String("password", "", "MQTT password (empty if auth disabled)")
 		qos      = flag.Int("qos", 1, "QoS for published messages")
-		size     = flag.Int("size", 100, "Size of the messages payload (bytes)")
+		size     = flag.Int("size", 0, "Size of the messages payload (bytes)")
 		count    = flag.Int("count", 100, "Number of messages to send per client")
 		clients  = flag.Int("clients", 10, "Number of clients to start")
 		format   = flag.String("format", "text", "Output format: text|json")
 		quiet    = flag.Bool("quiet", false, "Suppress logs while running")
-		clientid   = flag.String("clientid", "", "MQTT clientid (empty if auth disabled)")
+		clientid = flag.String("clientid", "", "MQTT clientid (empty if auth disabled)")
+		payload  = flag.String("payload", "", "MQTT payload (empty if auth disabled)")
 	)
 
 	flag.Parse()
@@ -96,7 +97,8 @@ func main() {
 			MsgCount:   *count,
 			MsgQoS:     byte(*qos),
 			Quiet:      *quiet,
-			ClientID: *clientid,
+			ClientID:   *clientid,
+			Payload:    *payload,
 		}
 		go c.Run(resCh)
 	}

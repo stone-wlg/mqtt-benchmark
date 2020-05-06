@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"log"
 	"time"
-	"bytes"
-	"encoding/json"
 )
 
 import (
@@ -24,6 +22,7 @@ type Client struct {
 	MsgQoS     byte
 	Quiet      bool
 	ClientID 	 string
+	Payload 	 string
 }
 
 func (c *Client) Run(res chan *RunResults) {
@@ -73,13 +72,16 @@ func (c *Client) Run(res chan *RunResults) {
 }
 
 func (c *Client) genMessages(ch chan *Message, done chan bool) {
+	payload := make([]byte, c.MsgSize)
+	if c.Payload != "" {
+		payload = []byte(c.Payload)
+	}
+
 	for i := 0; i < c.MsgCount; i++ {
 		ch <- &Message{
 			Topic:   c.MsgTopic,
 			QoS:     c.MsgQoS,
-			Payload: make([]byte, c.MsgSize),
-			//Payload: {"temperature": 36.5},
-			//Payload: bytes.NewBufferString("Publish qos0")
+			Payload: payload,
 		}
 	}
 	done <- true

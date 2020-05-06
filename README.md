@@ -90,3 +90,8 @@ Similarly, in JSON:
     }
 }
 ```
+
+# For chint
+```bash
+./mqtt-benchmark --broker tcp://test-mqtt.chintcloud.net:1883 --count 10 --size 10 --clients 10 --qos 1 --topic v2/device/telemetry --clientid jcpBwOWRUH/*123 --username dH009wv98UgGfSBaoFIq --payload '{"temperature": 36.3}'
+```
