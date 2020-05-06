@@ -21,9 +21,11 @@ Usage of mqtt-benchmark:
   -password="": MQTT password (empty if auth disabled)
   -qos=1: QoS for published messages
   -quiet=false : Suppress logs while running (except errors and the result)
-  -size=100: Size of the messages payload (bytes)
+  -size=0: Size of the messages payload (bytes)
   -topic="/test": MQTT topic for incoming message
   -username="": MQTT username (empty if auth disabled)
+  -clientid="": MQTT clientid (empty if auth disabled)
+  -payload="": MQTT payload (empty if auth disabled)
 ```
 
 > NOTE: if `count=1` or `clients=1`, the sample standard deviation will be returned as `0` (convention due to the [lack of NaN support in JSON](https://tools.ietf.org/html/rfc4627#section-2.4))
@@ -34,6 +36,7 @@ Example use and output:
 
 ```sh
 > mqtt-benchmark --broker tcp://broker.local:1883 --count 100 --size 100 --clients 100 --qos 2 --format text
+> ./mqtt-benchmark --broker tcp://broker.local:1883 --count 10 --clients 10 --qos 1 --topic v2/device/telemetry --clientid jcpBwOWRUH/*123 --username dH009wv98UgGfSBaoFIq --payload '{"temperature": 36.3}'
 ....
 
 ======= CLIENT 27 =======
@@ -89,9 +92,4 @@ Similarly, in JSON:
         "avg_msgs_per_sec": 6.810374046459865
     }
 }
-```
-
-# For chint
-```bash
-./mqtt-benchmark --broker tcp://test-mqtt.chintcloud.net:1883 --count 10 --size 10 --clients 10 --qos 1 --topic v2/device/telemetry --clientid jcpBwOWRUH/*123 --username dH009wv98UgGfSBaoFIq --payload '{"temperature": 36.3}'
 ```
