@@ -35,7 +35,7 @@ Two output formats supported: human-readable plain text and JSON.
 Example use and output:
 
 ```sh
-> mqtt-benchmark --broker tcp://broker.local:1883 --count 100 --size 100 --clients 100 --qos 2 --format text
+> ./mqtt-benchmark --broker tcp://localhost:1883 --count 100 --clients 100 --qos 2 --format text --topic v2/device/telemetry --payload '{"temperature": 36.3}'
 > ./mqtt-benchmark --broker tcp://test-mqtt.chintcloud.net:1883 --clients 10 --count 10 --qos 1 --topic v2/device/telemetry --clientid jcpBwOWRUH/*123 --username dH009wv98UgGfSBaoFIq --payload '{"temperature": 36.3}'
 ....
 
